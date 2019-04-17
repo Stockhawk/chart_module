@@ -1,13 +1,13 @@
 # Project Name
 
-> Project description
+> Chart Module Component
 
 ## Related Projects
 
-  - https://github.com/teamName/repo
-  - https://github.com/teamName/repo
-  - https://github.com/teamName/repo
-  - https://github.com/teamName/repo
+  - https://github.com/hrsf113-group-5/chart_module
+  - https://github.com/hrsf113-group-5/about_info_module
+  - https://github.com/hrsf113-group-5/buy_sell_module
+  - https://github.com/hrsf113-group-5/ratings_history_module
 
 ## Table of Contents
 
@@ -17,7 +17,7 @@
 
 ## Usage
 
-> Some usage instructions
+> View price points of specific stocks using /stocks/:stockid
 
 ## Requirements
 
@@ -36,4 +36,15 @@ From within the root directory:
 npm install -g webpack
 npm install
 ```
+
+## Available API Routes
+
+For more, check out the json-server documentation!
+
+| Endpoint                       | Type   | Operation                                                    |
+|--------------------------------|--------|--------------------------------------------------------------|
+| `/api/stocks/:stockid/prices`  | GET    | Get all price points from the last 5 years for symbol        |
+| `/api/stocks/`                 | POST   | Add Symbol                                                   |
+| `/api/stocks/:stockid/prices`  | PUT    | Update price points for symbol                               | 
+| `/api/stocks/:stockid/prices`  | DELETE | Delete price points for symbol                               |
 

@@ -17,7 +17,7 @@ app.listen(port, () => {
   console.log(`Server is now listening on port: ${port}`)
 })
 
-app.get('/api/:stockId', (req, res) => {
+app.get('/api/stocks/:stockId', (req, res) => {
   console.log('Got a request searching for', req.params.stockId);
   Stocks.find({stockId: req.params.stockId}, (err, data) => {
     if (err) {

@@ -1,13 +1,13 @@
 // const db  = require('./index.js');
 // const StockChart = require('./StockChart.js');
 const generateData = require('./generateData.js');
-const file = require("fs").createWriteStream("./test10.dat");
+const file = require("fs").createWriteStream("./test12.dat");
 
 const stockData = [];
 
 (async() => {
 console.time('generate');
-for (let i = 0; i < 120; i++) {
+for (let i = 0; i < 1e7; i++) {
 //   stockData.push(generateData.generateData(i));
 // }
 if (i === 0){

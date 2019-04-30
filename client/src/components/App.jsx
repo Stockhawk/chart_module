@@ -1,5 +1,6 @@
+
 import React from 'react';
-// import axios from 'axios';
+import axios from 'axios';
 import LineChartContainer from './LineChartContainer';
 import TimeFilter from './TimeFilter';
 import StockInfo from './StockInfo';
@@ -21,20 +22,60 @@ class App extends React.Component {
       currentPrice: null
     };
   }
-  
 
   componentDidMount() {
-    const { stockId } = this.props.match ? this.props.match.params : { stockId: null };
-    API.get((stockId && `/api/${stockId}`) || `/api/TSLA`)
-    .then((response) => {
+  const stockId = window.location.pathname.split('/')[2];
+  console.log('stock', stockId);
+  axios.get(`/api/stocks/${stockId}`)
+    .then(response => {
+      let day = [];
+      let week = [];
+      let month = [];
+      let threemonth = [];
+      let year = [];
+      let fiveyear = [];
+      for (var i = 0; i < 107; i++){
+        day.push(response.data[i].day);
+        week.push(response.data[i].week);
+        month.push(response.data[i].month);
+        threemonth.push(response.data[i].threemonth);
+        year.push(response.data[i].year);
+        fiveyear.push(response.data[i].fiveyear);
+      }
       this.setState({
-        stockInfo: response.data[0].stockInfo,
-        chartData: response.data[0].stockData,
-        averageStock: response.data[0].averageStock,
-        changePercent: response.data[0].changePercent
+        chartData: { day: day,
+          week: week,
+          month: month,
+          threeMonth: threemonth,
+          year: year,
+          fiveYear: fiveyear
+        },
+        stockInfo: {
+          relatedTags: ['hello', 'world'],
+          stockCompany: response.data[0].stockcompany,
+          noOfOwners: response.data[0].noofowners,
+          recommendationPercent: response.data[0].recommendationpercent
+        },
+        averageStock: response.data[0].averagestock,
+        changePercent: response.data[0].changepercent
       })
     })
+    .catch(err => console.log(err));
   }
+
+  // componentDidMount() {
+  //   console.log('RESPONSE')
+  //   const { stockId } = this.props.match ? this.props.match.params : { stockId: null };
+  //   API.get((`/stocks/${stockId}`) || `/api/TSLA`)
+  //   .then((response) => {
+  //     this.setState({
+  //       stockInfo: response.data[0].stockInfo,
+  //       chartData: response.data[0].stockData,
+  //       averageStock: response.data[0].averageStock,
+  //       changePercent: response.data[0].changePercent
+  //     })
+  //   })
+  // }
 
   changeSelectedFilter(e) {
     this.setState({

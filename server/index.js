@@ -1,46 +1,58 @@
-/* eslint-disable no-console */
+require('newrelic');
 const express = require('express');
 const path = require('path');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const Stocks = require('../database/StockChart.js');
-
+const db = require('../database/index.js');
 const app = express();
 const port = 4000;
 
-app.use(cors());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+const redis = require('redis');
+const client = redis.createClient();
+// app.use(responseTime());
+
 app.use(express.static(path.join(__dirname, '/../public/dist')));
 
 app.listen(port, () => {
   console.log(`Server is now listening on port: ${port}`)
 })
 
-app.get('/api/stocks/:stockId', (req, res) => {
-  console.log('Got a request searching for', req.params.stockId);
-  Stocks.find({stockId: req.params.stockId}, (err, data) => {
-    if (err) {
-      console.log(err.message);
-    } else if (!data.length) {
-      Stocks.find({id: req.params.stockId}, (err, data) => {
-        if (err) {
-          console.log(err.message);
-        } else if (!data.length) {
-          console.log('Data not found');
-          res.sendStatus(404);
-        } else {
-          console.log(`Sending ${req.params.stockId} to client`);
-          res.send(data);
-        }
-      }) 
-    } else {
-      console.log(`Sending ${req.params.stockId} to client`);
-      res.send(data);
-    }
-  }) 
+app.use('/stocks/:stockId', express.static(__dirname + '/../public/dist/'));
+
+// app.get('/api/stocks/:stockId', (req, res) => {
+//   db.pool.query('SELECT * FROM stocks NATURAL JOIN day NATURAL JOIN weeks NATURAL JOIN months NATURAL JOIN threemonths NATURAL JOIN years NATURAL JOIN fiveyear WHERE stocks.stockid = $1', [req.params.stockId.toUpperCase()])
+//   .then(result => res.send(result.rows))
+//   .catch(err => console.log('get stocks error', err));
+// })
+
+app.post('/api/stocks/:stockId', (req, res) => {
 })
 
-app.get('/:stockId', (req, res) => {
-  res.sendFile(path.join(__dirname, '/../public/dist/index.html'));
+app.put('/api/stocks/:stockId', (req, res) => {
 })
+
+app.delete('/api/stocks/:stockId', (req, res) => {
+})
+
+const getBook = (req, res, isbn) => {
+  db.pool.query('SELECT * FROM stocks NATURAL JOIN day NATURAL JOIN weeks NATURAL JOIN months NATURAL JOIN threemonths NATURAL JOIN years NATURAL JOIN fiveyear WHERE stocks.stockid = $1', [req.params.stockId.toUpperCase()])
+  .then(result => {
+    client.setex(isbn, 3600, JSON.stringify(result.rows))
+    res.send(result.rows)
+  })
+  .catch(err => console.log('get stocks error', err));
+};
+
+const getCache = (req, res) => {
+  let isbn = req.params.stockId;
+  //Check the cache data from the server redis
+  client.get(isbn, (err, result) => {
+    if (result) {
+      res.send(result);
+    } else {
+      getBook(req, res, isbn);
+    }
+  });
+}
+
+app.get(`/api/stocks/:stockId`, getCache);
+
+  // db.getStocks(req.params.stockId.toUpperCase())

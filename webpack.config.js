@@ -9,6 +9,9 @@ module.exports = {
     filename: 'bundle.js',
     path: DIST_DIR,
   },
+  performance : {
+    hints : false
+  },
   module: {
     rules: [
       {

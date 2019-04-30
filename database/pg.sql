@@ -81,28 +81,35 @@ CREATE TABLE fiveyear (
 
 -- psql -U macbookpro -d charts -a -f pg.sql
 
+-- SELECT *
+-- FROM stocks
+-- LEFT JOIN day
+-- ON stocks.id = day.id
+-- LEFT JOIN weeks
+-- ON stocks.id = weeks.id
+-- LEFT JOIN months
+-- ON stocks.id = months.id
+-- LEFT JOIN threemonths
+-- ON stocks.id = threemonths.id
+-- LEFT JOIN years
+-- ON stocks.id = years.id
+-- LEFT JOIN fiveyear
+-- ON stocks.id = fiveyear.id
+-- WHERE stocks.id = 100;
 
-SELECT *
-FROM stocks
-INNER JOIN day
-ON stocks.id = day.id
-INNER JOIN weeks
-ON stocks.id = weeks.id
-INNER JOIN months
-ON stocks.id = months.id
-INNER JOIN threemonths
-ON stocks.id = threemonths.id
-INNER JOIN years
-ON stocks.id = years.id
-INNER JOIN fiveyear
-ON stocks.id = fiveyear.id
-WHERE stocks.id = 100;
 
+-- SELECT *
+-- FROM stocks
+-- NATURAL JOIN day
+-- NATURAL JOIN weeks
+-- NATURAL JOIN months
+-- NATURAL JOIN threemonths
+-- NATURAL JOIN years
+-- NATURAL JOIN fiveyear
+-- WHERE stocks.stockid = 'TSLA';
 
-SELECT *
-FROM stocks
-INNER JOIN day
-ON stocks.id = day.id
-INNER JOIN fiveyear
-ON stocks.id = fiveyear.id
-WHERE stocks.id = 100;
+-- COUNT(*)
+
+-- SELECT INTO temp FROM stocks, day where stocks.id = day.id;
+
+-- SELECT * FROM stocks NATURAL JOIN day NATURAL JOIN weeks NATURAL JOIN months NATURAL JOIN threemonths NATURAL JOIN years NATURAL JOIN fiveyear WHERE stocks.stockid = $1

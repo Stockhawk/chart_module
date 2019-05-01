@@ -8,6 +8,10 @@ node_modules/
 *.dat
 *.csv
 newrelic.js
+stocksday.csv.gz
+Archive.zip
+*.txt
+chunks/
 
 pids
 *.pid
@@ -29,3 +33,4 @@ build/
 # Examples of code from Hack Reactor
 example/
 
+ssh -i stockpigeon.pem ec2-user@ec2-13-58-67-174.us-east-2.compute.amazonaws.com

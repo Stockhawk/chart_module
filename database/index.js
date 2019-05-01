@@ -1,7 +1,8 @@
 const pg = require('pg');
+const { Client } = require('pg');
 // var Sequelize = require('sequelize');
 // var db = new Sequelize('charts', 'macbookpro', '', {
-//   host: 'localhost',
+//   host: '13.58.67.174',
 //   dialect: 'postgres',  
 //   logging: false,
 // });
@@ -10,8 +11,40 @@ const connection = process.env.DATABASE_URL ?
   { connectionString: process.env.DATABASE_URL } : 
   { host: 'localhost', database: 'charts', logging: false};
 
+// const connection = process.env.DATABASE_URL ? 
+//   { connectionString: process.env.DATABASE_URL } : 
+//   { host: '13.58.67.174:5432', database: 'charts', user: 'macbookpro', password: 'password', logging: false};
+
+// var connection = {
+//   host: '13.58.67.174',
+//   user: 'macbookpro', // name of the user account
+//   database: 'charts', // name of the database
+//   password: 'password',
+//   max: 10, // max number of clients in the pool
+//   idleTimeoutMillis: 30000 
+// }
+
+// var string = 'postgres://macbookpro:password@ec2-13-58-67-174.us-east-2.compute.amazonaws.com:5432/charts'
+// var string = 'postgres://macbookpro:password@ec2-13-58-67-174.us-east-2.compute.amazonaws.com:5432/charts'
+// var string = 'postgres://macbookpro:password@localhost:5432/charts'
+
+// const pool = new Client({
+//   host: 'ec2-13-58-67-174.us-east-2.compute.amazonaws.com',
+//   port: 5432,
+//   user: 'user1',
+//   password: '',
+//   database: 'charts'
+// })
+
 const pool = new pg.Pool(connection);
-pool.connect();
+pool.connect((err) => {
+  if (err) {
+    console.error('connection error', err.stack)
+  } else {
+    console.log('connected')
+  }
+});
+
 
 const getStocks = function (stockId) {
   return pool.query('SELECT * FROM stocks NATURAL JOIN day NATURAL JOIN weeks NATURAL JOIN months NATURAL JOIN threemonths NATURAL JOIN years NATURAL JOIN fiveyear WHERE stocks.stockid = $1', [stockId]);

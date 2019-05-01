@@ -11,7 +11,7 @@ const filetags = require("fs").createWriteStream("./stockstags.csv");
 //fileday
 (async() => {
 console.time('generate');
-for (let i = 0; i < 1250000; i++) {
+for (let i = 0; i < 100; i++) {
 if (i === 0){
   fileticker.write('id,stockid,stockcompany,averagestock,changepercent,noofowners,recommendationpercent\n');
   fileday.write('id,priceid,day\n');

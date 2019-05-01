@@ -22,7 +22,7 @@ CREATE TABLE tags (
   PRIMARY KEY (tagid)
 );
 
-CREATE TABLE day (
+CREATE TABLE day2 (
   dayid SERIAL,
   id INT NOT NULL,
   priceid VARCHAR(30) NOT NULL,
@@ -70,16 +70,26 @@ CREATE TABLE fiveyear (
   PRIMARY KEY (fiveyearid)
 );
 
-\copy stocks ("id","stockid","stockcompany","averagestock","changepercent","noofowners","recommendationpercent") from '/Users/macbookpro/documents/hr/sdc/chart_module/database/stocksticker.csv' DELIMITER ',' CSV HEADER
-\copy tags ("id","relatedtags") from '/Users/macbookpro/documents/hr/sdc/chart_module/database/stockstags.csv' DELIMITER ',' CSV HEADER
-\copy day ("id","priceid","day") from '/Users/macbookpro/documents/hr/sdc/chart_module/database/stocksday.csv' DELIMITER ',' CSV HEADER
-\copy weeks ("id","priceid","week") from '/Users/macbookpro/documents/hr/sdc/chart_module/database/stocksweek.csv' DELIMITER ',' CSV HEADER
-\copy months ("id","priceid","month") from '/Users/macbookpro/documents/hr/sdc/chart_module/database/stocksmonth.csv' DELIMITER ',' CSV HEADER
-\copy threemonths ("id","priceid","threemonth") from '/Users/macbookpro/documents/hr/sdc/chart_module/database/stocksthreemonth.csv' DELIMITER ',' CSV HEADER
-\copy years ("id","priceid","year") from '/Users/macbookpro/documents/hr/sdc/chart_module/database/stocksyear.csv' DELIMITER ',' CSV HEADER
-\copy fiveyear ("id","priceid","fiveyear") from '/Users/macbookpro/documents/hr/sdc/chart_module/database/stocksfiveyear.csv' DELIMITER ',' CSV HEADER
+-- \copy stocks ("id","stockid","stockcompany","averagestock","changepercent","noofowners","recommendationpercent") from '/Users/macbookpro/documents/hr/sdc/chart_module/database/stocksticker.csv' DELIMITER ',' CSV HEADER
+-- \copy tags ("id","relatedtags") from '/Users/macbookpro/documents/hr/sdc/chart_module/database/stockstags.csv' DELIMITER ',' CSV HEADER
+-- \copy day ("id","priceid","day") from '/Users/macbookpro/documents/hr/sdc/chart_module/database/stocksday.csv' DELIMITER ',' CSV HEADER
+-- \copy weeks ("id","priceid","week") from '/Users/macbookpro/documents/hr/sdc/chart_module/database/stocksweek.csv' DELIMITER ',' CSV HEADER
+-- \copy months ("id","priceid","month") from '/Users/macbookpro/documents/hr/sdc/chart_module/database/stocksmonth.csv' DELIMITER ',' CSV HEADER
+-- \copy threemonths ("id","priceid","threemonth") from '/Users/macbookpro/documents/hr/sdc/chart_module/database/stocksthreemonth.csv' DELIMITER ',' CSV HEADER
+-- \copy years ("id","priceid","year") from '/Users/macbookpro/documents/hr/sdc/chart_module/database/stocksyear.csv' DELIMITER ',' CSV HEADER
+-- \copy fiveyear ("id","priceid","fiveyear") from '/Users/macbookpro/documents/hr/sdc/chart_module/database/stocksfiveyear.csv' DELIMITER ',' CSV HEADER
+
+\copy stocks ("id","stockid","stockcompany","averagestock","changepercent","noofowners","recommendationpercent") from '/home/ec2-user/SDC/chart_module/stocksticker.csv' DELIMITER ',' CSV HEADER
+\copy tags ("id","relatedtags") from '/home/ec2-user/SDC/chart_module/stockstags.csv' DELIMITER ',' CSV HEADER
+\copy day ("id","priceid","day") from '/home/ec2-user/SDC/chart_module/stocksday.csv' DELIMITER ',' CSV HEADER
+\copy weeks ("id","priceid","week") from '/home/ec2-user/SDC/chart_module/stocksweek.csv' DELIMITER ',' CSV HEADER
+\copy months ("id","priceid","month") from '/home/ec2-user/SDC/chart_module/stocksmonth.csv' DELIMITER ',' CSV HEADER
+\copy threemonths ("id","priceid","threemonth") from '/home/ec2-user/SDC/chart_module/stocksthreemonth.csv' DELIMITER ',' CSV HEADER
+\copy years ("id","priceid","year") from '/home/ec2-user/SDC/chart_module/stocksyear.csv' DELIMITER ',' CSV HEADER
+\copy fiveyear ("id","priceid","fiveyear") from '/home/ec2-user/SDC/chart_module/stocksfiveyear.csv' DELIMITER ',' CSV HEADER
 
 -- psql -U macbookpro -d charts -a -f pg.sql
+-- psql -U postgres -d charts -a -f pg.sql
 
 -- SELECT *
 -- FROM stocks
@@ -113,3 +123,11 @@ CREATE TABLE fiveyear (
 -- SELECT INTO temp FROM stocks, day where stocks.id = day.id;
 
 -- SELECT * FROM stocks NATURAL JOIN day NATURAL JOIN weeks NATURAL JOIN months NATURAL JOIN threemonths NATURAL JOIN years NATURAL JOIN fiveyear WHERE stocks.stockid = $1
+
+
+CREATE TABLE day2 (
+  dayid INT NOT NULL,
+  id INT NOT NULL,
+  priceid VARCHAR(30) NOT NULL,
+  day DECIMAL NOT NULL
+); 

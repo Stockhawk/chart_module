@@ -8,6 +8,10 @@ node_modules/
 *.dat
 *.csv
 newrelic.js
+Archive.zip
+chunks/
+*.txt
+stocksday.csv.gz
 
 pids
 *.pid

@@ -1,6 +1,3 @@
-
-
-
 const readline = require('readline');
 const { insertDays }= require('./models.js')
 
@@ -14,11 +11,18 @@ const rl = readline.createInterface({
   input: process.stdin
 })
 
+let count = 0;
+let writtenCount = 0;
+
 if (cluster.isMaster) {
   console.log(`Master ${process.pid} is running`);
   
+
+  cluster.setupMaster({
+    schedulingPolicy: cluster.SCHED_NONE
+  });
   // Fork workers.
-  for (let i = 0; i < numCPUs; i++) {
+  for (let i = 0; i < 4; i++) {
     cluster.fork();
   }
 
@@ -27,8 +31,6 @@ if (cluster.isMaster) {
   });
 } else {
 
-  let count = 0;
-  let writtenCount = 0;
   let lines = [];
   
   rl.on('line', (line) => {
@@ -38,14 +40,15 @@ if (cluster.isMaster) {
     }
     count++;
     if (lines.length === 1000){
-      insertDays(lines, (err) => {
+      let buffer = lines;
+      lines = [];
+      insertDays(buffer, (err) => {
         if (err){
           console.log('error writing to db', line)
         } else {
         writtenCount += 1000;
         }
       }, count);
-      lines = [];
     }
     if (count % 1000000 === 0) {
       console.log('Read Count: ',count);

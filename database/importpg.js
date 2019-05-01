@@ -29,7 +29,8 @@ if (cluster.isMaster) {
 
   let count = 0;
   let writtenCount = 0;
-    
+  let lines = [];
+  
   rl.on('line', (line) => {
     if (count === 0){
       count++;
@@ -39,11 +40,11 @@ if (cluster.isMaster) {
     if (lines.length === 1000){
       insertDays(lines, (err) => {
         if (err){
-          console.log('error writing to db', err)
+          console.log('error writing to db', line)
         } else {
         writtenCount += 1000;
         }
-      });
+      }, count);
       lines = [];
     }
     if (count % 1000000 === 0) {
@@ -55,7 +56,6 @@ if (cluster.isMaster) {
     lines.push(`(${line[0]},'${line[1]}',${line[2]})`);
   })
   
-  var lines = [];
 
   console.log(`Worker ${process.pid} started`);
 }
